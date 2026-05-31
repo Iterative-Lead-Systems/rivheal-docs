@@ -1,0 +1,115 @@
+site_name: RivHeal Documentation
+site_description: Living documentation for the RivHeal EMR & patient platform
+site_author: RivHeal Engineering
+site_url: https://docs.rivheal.com
+
+repo_name: rivheal-docs
+repo_url: https://github.com/Iterative-Lead-Systems/rivheal-docs
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - toc.integrate
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search:
+      lang: en
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - attr_list
+  - md_in_html
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Principles: principles.md
+  - Features:
+      - Overview: features/README.md
+      - Patient App: features/patient-app.md
+      - Admin Panel: features/admin-panel.md
+      - AI / ML: features/ai-ml.md
+      - Integrations: features/integrations.md
+  - Setup:
+      - Overview: setup/README.md
+      - Local Development: setup/local-development.md
+      - Environment Variables: setup/environment-variables.md
+      - Docker Compose: setup/docker-compose.md
+      - Deployment: setup/deployment.md
+  - Flows:
+      - Overview: flows/README.md
+      - Appointment Booking: flows/appointment-booking.md
+      - Queue Tracking: flows/queue-tracking.md
+      - Symptom Checker (LLM): flows/symptom-checker-llm.md
+      - Medication Adherence: flows/medication-adherence.md
+      - Telemedicine: flows/telemedicine.md
+      - Rasa — Deploy & Train: flows/rasa-deployment.md
+  - API Reference: api/README.md
+  - Changelog: changelog.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Iterative-Lead-Systems
+  generator: false
+
+extra_css:
+  - assets/extra.css

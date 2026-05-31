@@ -1,0 +1,39 @@
+/* RivHeal Documentation — custom overrides */
+
+:root {
+  --md-primary-fg-color: #14b8a6;     /* teal-500 — matches the mobile app brand */
+  --md-primary-fg-color--light: #5eead4;
+  --md-primary-fg-color--dark: #0f766e;
+  --md-accent-fg-color: #14b8a6;
+}
+
+/* Slightly larger base font for readability */
+.md-typeset {
+  font-size: 0.8rem;
+  line-height: 1.75;
+}
+
+/* Make code blocks slightly wider on large screens */
+@media (min-width: 76.25em) {
+  .md-content {
+    max-width: 900px;
+  }
+}
+
+/* Mermaid diagrams — center and cap width */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Admonition tweaks */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 6px;
+}
