@@ -1,6 +1,6 @@
 # Docker Compose Guide
 
-> Last updated: **2026-05-30**
+> Last updated: **2026-05-31**
 
 ---
 
@@ -24,20 +24,38 @@
 
 <!-- AUTO-GENERATED: compose-services-start -->
 
-| Service | Image | Port (dev) | Description |
+| Service | Image source | Port (dev) | How it gets its code |
 |---|---|---|---|
-| `postgres` | `postgres:16-alpine` | `5432` | Primary database |
-| `keycloak_db` | `postgres:16-alpine` | internal | Keycloak backing store |
-| `keycloak` | `keycloak:26.1.4` | `8080` | SSO / OIDC |
-| `redis` | `redis:7-alpine` | `6379` | Cache + Bull job queue |
-| `api` | build from `../rivheal-api` | `8000` | NestJS backend (hot reload in dev) |
-| `ml-service` | build from `../rivheal-ml-service` | `8001` | FastAPI ML predictions |
-| `rasa` | `rasa/rasa:3.6.21` | `5005` | Rasa NLU chatbot |
-| `rasa-actions` | `rasa/rasa-sdk:3.6.2` | `5055` | Rasa custom actions |
-| `traefik` | `traefik:v3.2` | `80`, `443` | Reverse proxy (prod only) |
-| `mongodb` | `mongo:7` | internal | Document store (prod only) |
+| `postgres` | Docker Hub `postgres:16-alpine` | `5432` | Official image — no code |
+| `keycloak_db` | Docker Hub `postgres:16-alpine` | internal | Official image — no code |
+| `keycloak` | `quay.io/keycloak:26.1.4` | `8080` | Official image + realm JSON mounted |
+| `redis` | Docker Hub `redis:7-alpine` | `6379` | Official image — no code |
+| `api` | **Dev:** build from `../rivheal-api` / **Prod:** GHCR image | `8000` | Dev: hot-reload source mount / Prod: pre-built image |
+| `ml-service` | **Dev:** build from `../rivheal-ml-service` / **Prod:** GHCR image | `8001` | Dev: source build / Prod: pre-built image via GitHub Actions |
+| `rasa` | Docker Hub `rasa/rasa:3.6.21` | `5005` | **Volume mount:** `${RASA_BOT_PATH}:/app` |
+| `rasa-actions` | Docker Hub `rasa/rasa-sdk:3.6.2` | `5055` | **Volume mount:** `${RASA_BOT_PATH}/actions:/app/actions` |
+| `traefik` | Docker Hub `traefik:v3.2` | `80`, `443` | Prod only — config files mounted |
+| `mongodb` | Docker Hub `mongo:7` | internal | Prod only — no code |
 
 <!-- AUTO-GENERATED: compose-services-end -->
+
+---
+
+## How Each Service Gets Its Code
+
+This is the most important thing to understand about the compose setup:
+
+| Pattern | Services | Explanation |
+|---|---|---|
+| **Pre-built image (GHCR)** | `api`, `ml-service` | GitHub Actions builds + pushes image → server pulls it. Server never builds. |
+| **Official image (Docker Hub)** | `postgres`, `redis`, `keycloak`, `traefik` | No custom code. Docker pulls the published image directly. |
+| **Official image + volume mount** | `rasa`, `rasa-actions` | Uses official Rasa image. Your `rasa-bot/` folder is mounted in at runtime. Rasa reads your NLU data and actions from the mount. |
+
+### Why Rasa uses volume mount instead of a custom image
+
+Building a custom Rasa image would require baking the trained model into the image — which means rebuilding every time you update intents or retrain. The volume mount approach is simpler:
+- Update `rasa-bot/` → `git pull` on server → `rasa train` → `restart rasa`
+- No image build, no CI/CD pipeline required for Rasa changes
 
 ---
 

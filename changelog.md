@@ -4,6 +4,26 @@ Changes to this documentation set. Newest entries first.
 
 ---
 
+## 2026-05-31 — Rasa & ML Deployment Fixes
+
+**Trigger:** Clarification session — docs did not explain how `rasa-bot/` and `rivheal-ml-service/` connect to Docker and the server. Three infrastructure bugs were also discovered and fixed.
+
+**Bugs fixed (in compose files):**
+1. `rasa-actions` in staging/prod pointed to a nonexistent custom GHCR image. Changed to official `rasa/rasa-sdk:3.6.2` with a volume mount.
+2. `rasa` in staging/prod mounted an empty Docker named volume instead of the actual `rasa-bot/` repo. Changed to `${RASA_BOT_PATH}:/app`.
+3. ML service GitHub Actions had wrong `context: ./rivheal-ml-service` (monorepo path). Fixed to `context: .` for standalone repo.
+4. `RASA_SERVER_URL`, `RASA_ACTIONS_URL`, `ML_SERVICE_URL` missing from staging/prod API env block. Added.
+
+**Docs updated:**
+- `setup/deployment.md` — full rewrite of Rasa section; added step-by-step first-deploy checklist, Rasa training guide, how to update intents vs actions.
+- `setup/docker-compose.md` — updated services table to clarify how each service gets its code (GHCR image / Docker Hub official / volume mount); added explanation of volume mount pattern.
+- `setup/environment-variables.md` — added `RASA_BOT_PATH` with prominent warning note.
+
+**Docs created:**
+- `flows/rasa-deployment.md` — architecture diagram, first-deploy sequence, live message flow, update-intents flow, update-actions flow, troubleshooting table.
+
+---
+
 ## 2026-05-30 — Initial Generation
 
 **Trigger:** First run of `rivheal-doc` skill after major AI/ML implementation sprint.

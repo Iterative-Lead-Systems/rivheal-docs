@@ -9,3 +9,4 @@ Sequence diagrams for the key user journeys in RivHeal.
 | Symptom Checker + LLM Triage | [symptom-checker-llm.md](./symptom-checker-llm.md) |
 | Medication Adherence | [medication-adherence.md](./medication-adherence.md) |
 | Telemedicine | [telemedicine.md](./telemedicine.md) |
+| Rasa — Deploy, Train & Chat | [rasa-deployment.md](./rasa-deployment.md) |

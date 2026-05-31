@@ -44,6 +44,7 @@ RivHeal is a multi-tenant Electronic Medical Records (EMR) platform built for Ni
 | [Flows → Symptom Checker + LLM](./flows/symptom-checker-llm.md) | AI-assisted triage flow |
 | [Flows → Medication Adherence](./flows/medication-adherence.md) | Prescription tracking flow |
 | [Flows → Telemedicine](./flows/telemedicine.md) | Video consultation flow |
+| [Flows → Rasa Deploy & Train](./flows/rasa-deployment.md) | How rasa-bot connects to Docker, how to train, full chat flow |
 | [API Overview](./api/README.md) | API structure, auth, versioning |
 | [Changelog](./changelog.md) | Documentation update history |
 
